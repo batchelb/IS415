@@ -1,0 +1,10 @@
+<div class="homepage">
+  <div class="navigator">
+    <div class="title">Please choose what project you would like to view.</div>
+    <div class="center">
+        <div class="button" *ngFor="let button of ['/tableau','/recommender/similar'];let i = index" [routerLink]="button">
+          <img [src]="['https://www.teleanalysis.com/wp-content/uploads/2017/08/Tableau-software-logo-e1502871850906.png','https://sec.ch9.ms/ch9/caa3/91661059-bda6-4ece-a5e0-e7717338caa3/OverviewOfAzureML_960.jpg'][i]">
+        </div>
+    </div>
+  </div>
+</div>

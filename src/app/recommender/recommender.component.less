@@ -1,0 +1,59 @@
+@import '../../styles.less';
+.recommender-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    .side-bar{
+        height: 100%;
+        flex: 0 0 230px;
+        background-color: #f8f8f8;
+        border-right: solid 2px #e7e7e7;
+        .active {
+            background: @white;
+        }
+        .recommenders{
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding-left:20px;
+            font-size: 14px;
+            cursor: pointer;
+            &:hover{
+                font-weight:  600;
+            }
+        }
+    }
+    .recommender{
+        flex: 1 1 80%;
+    }
+    .intro {
+        margin: 20px;
+        .description {
+            font-size: 12px;
+            margin-bottom: 30px;
+        }
+    }
+    .search {
+        margin: 20px;
+        border-bottom: solid 2px #e7e7e7;
+    }
+    .auto-complete{
+        margin-right:20px;
+        width: 350px;
+    }
+    .display{
+        margin: 20px;
+        >.title{
+            flex: 0 0 80px;
+        }
+        .recommendations{
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 100%;
+            .recommendation{
+                margin: 20px;
+                font-size: 18px;
+            }
+        }
+    }
+}

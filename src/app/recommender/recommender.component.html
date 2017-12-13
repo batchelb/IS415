@@ -1,0 +1,31 @@
+<div class="recommender-container">
+  <div class="side-bar">
+    <div class="recommenders" *ngFor="let recommender of recommendersNav" [class.active] ="type === recommender.url" [routerLink]="'/recommender/' + recommender.url">
+      <span>{{recommender.display}}</span>
+    </div>
+  </div>
+  <div class="recommender">
+    <mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+    <div class="intro">
+      <div class="title">{{recommenders[type].title}} Recommender</div>
+      <div class="description">{{recommenders[type].description}}</div>
+    </div>
+    <div class="search">
+      <mat-form-field class="auto-complete">
+          <input matInput [placeholder]="recommenders[type].placeholder" aria-label="State" [(ngModel)]="searchText" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let value of filter(recommenders[type].select)" [value]="type === 'app' ? value.trackName : value.fname + ' ' + value.lname">
+              {{type === 'app' ? value.trackName : value.fname + ' ' + value.lname}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      <button mat-raised-button (click)="recommend()">Recommend</button>
+    </div>
+    <div class="display" *ngIf="recommendations.length">
+      <div class="title">Top 5 Recommended {{recommenders[type].recommended}}</div>
+      <div class="recommendations">
+        <div class="recommendation" *ngFor="let recommendation of recommendations.slice(1); let i = index">{{i+1}}. {{recommendation}}</div>
+      </div>
+    </div>
+  </div>
+</div>
