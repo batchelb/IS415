@@ -55,7 +55,7 @@
       PhoneAppsSheet = getPhoneAppSheet()
       LocationSheet = getLocationSheet()
       PhoneAppsSheet.applyFilterAsync(
-          "Primary Genre",
+          "Genre",
           genre,
           tableau.FilterUpdateType.REPLACE).then(function(){
               get_list_of_apps().then(function(app_id_list){
@@ -109,7 +109,7 @@
 
 
       getPhoneAppSheet().applyFilterAsync(
-          "Primary Genre",
+          "Genre",
           "",
           tableau.FilterUpdateType.ALL
       )
