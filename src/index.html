@@ -19,16 +19,14 @@
 
   window.addEventListener('resize', resizeViz);
   function resizeViz() {
-      console.log('resizeViz running')
       var width = document.getElementById('vizContainer').clientWidth;
       var height = document.getElementById('vizContainer').clientHeight;
-      console.log('width: ' + width + '\nheight: '+ height)
       viz.setFrameSize(width, height);
+      document.getElementById('btn-column').setAttribute('style','height:'+height+'px;')
   }
 
 
   function initViz() {
-      console.log('initViz Running!')
     var placeholderDiv = document.getElementById("tableauViz");
     var url = "https://public.tableau.com/views/BoldAppsandLocations/Dashboard1?:embed=y&:display_count=yes";
     var windowWidth = document.getElementById('vizContainer').clientWidth
@@ -41,6 +39,8 @@
       onFirstInteractive: function () {
         workbook = viz.getWorkbook();
         activeSheet = workbook.getActiveSheet();
+        resizeViz();
+        document.getElementById('btn-column').classList.remove('invisible')
         listenToMarksSelection();
       }
     };
@@ -48,32 +48,31 @@
   }
 
 
-  function filterAppGenres(genre){
-      console.log("filterAppGenres("+genre+") running")
-      console.log(activeSheet)
-      console.log(workbook)
+  function filterAppGenres(id,genre){
+      // highlight the clicked button
+      unhighlight_all_buttons()
+      document.getElementById(id).classList.add('activebutton')
       PhoneAppsSheet = getPhoneAppSheet()
       LocationSheet = getLocationSheet()
-
       PhoneAppsSheet.applyFilterAsync(
           "Primary Genre",
           genre,
           tableau.FilterUpdateType.REPLACE).then(function(){
               get_list_of_apps().then(function(app_id_list){
-
-                  console.log('app_id_list: ', app_id_list)
                   LocationSheet.applyFilterAsync(
                       "app_id",
                       app_id_list,
                       tableau.FilterUpdateType.REPLACE
                   )
-
-
-
               })
       })
+  }
 
-
+  function unhighlight_all_buttons(){
+      x = document.getElementsByClassName('activebutton')
+      for (i = 0; i < x.length; i++) {
+            x[i].classList.remove('activebutton');
+            }
   }
 
   function get_list_of_apps(){
@@ -85,36 +84,30 @@
             includeAllColumns: false
           };
       sheet = getPhoneAppSheet()
-
-      console.log('sheet type: ', sheet.getSheetType())
-      console.log('sheet : ', sheet)
-
       sheet.getUnderlyingDataAsync(options).then(function (t) {
         var data = t.getData();
         // console.log('data: ', data)
         var app_id_list = []
         for(var i = 0; i < data.length; i++){
             app_id_list.push(data[i][0]['value'])
-            console.log('>>>>>>', data[i][0]['value'])
         }
-        // console.log('app_id_list: ', app_id_list)
-        console.log('returning data: ', app_id_list)
         resolve(app_id_list)
 
       });
   })}
 
   function getPhoneAppSheet(){
-      console.log('getPhoneAppSheet() called!')
       return viz.getWorkbook().getActiveSheet().getWorksheets().get("Phone Applications")
   }
   function getLocationSheet(){
-      console.log('getLocationSheet() called!')
       return viz.getWorkbook().getActiveSheet().getWorksheets().get("Locations/Businesses")
   }
 
-  function showAllValues() {
-      console.log('showAllValues() called!')
+  function showAllValues(id) {
+      unhighlight_all_buttons()
+      document.getElementById(id).classList.add('activebutton')
+
+
       getPhoneAppSheet().applyFilterAsync(
           "Primary Genre",
           "",
@@ -127,15 +120,6 @@
       )
   }
 
-
-  function changeDashboardSize() {
-    workbook.activateSheetAsync("Dashboard 1")
-      .then(function (dashboard) {
-        dashboard.changeSizeAsync({
-          behavior: tableau.SheetSizeBehavior.AUTOMATIC
-        });
-      });
-  }
 
 
 
