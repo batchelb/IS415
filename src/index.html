@@ -10,69 +10,133 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-  <script type="text/javascript" src="http://public.tableau.com/javascripts/api/tableau-2.0.0.js"></script>
+  <script type="text/javascript" src="http://public.tableau.com/javascripts/api/tableau-2.js"></script>
 </head>
 <body>
   <app-root></app-root>
   <script type="text/javascript">
-    var viz, workbook, activeSheet;
+  var viz, workbook, activeSheet;
 
-    window.addEventListener('resize', resizeViz);
-    function resizeViz() {
-        console.log('resizeViz running')
-        var width = document.getElementById('vizContainer').clientWidth;
-        var height = document.getElementById('vizContainer').clientHeight;
-        console.log('width: ' + width + '\nheight: '+ height)
-        viz.setFrameSize(width, height);
-    }
+  window.addEventListener('resize', resizeViz);
+  function resizeViz() {
+      console.log('resizeViz running')
+      var width = document.getElementById('vizContainer').clientWidth;
+      var height = document.getElementById('vizContainer').clientHeight;
+      console.log('width: ' + width + '\nheight: '+ height)
+      viz.setFrameSize(width, height);
+  }
 
 
-    function initViz() {
-      var placeholderDiv = document.getElementById("tableauViz");
-      var url = "https://public.tableau.com/views/BoldAppsandLocations/Dashboard1?:embed=y&:display_count=yes";
-      var windowWidth = document.getElementById('vizContainer').clientWidth
-      var windowHeight = document.getElementById('vizContainer').clientHeight
-      var options = {
-        // width: 900,
-        width: windowWidth,
-        height: 700,
-        hideTabs: true,
-        hideToolbar: true,
-        onFirstInteractive: function () {
-          workbook = viz.getWorkbook();
-          activeSheet = workbook.getActiveSheet();
-
-          //this shows up as undefined in both angular and normal
-          listenToMarksSelection();
-        }
-      };
-      console.log(placeholderDiv,url,options)
-      viz = new tableau.Viz(placeholderDiv, url, options);
-    }
-
-    /****************************************
-        FILTER PRACTICE
-    ****************************************/
-
-    function filterAppGenres(genre){
-        console.log("filterAppGenres("+genre+") running")
-        console.log(activeSheet.getWorksheets().get("Phone Applications"))
-
-        //this for what ever reason is pointing at the dashboard for both anuglar and normal, here is the work around
-        activeSheet.getWorksheets().get("Phone Applications").applyFilterAsync(
-            "Primary Genre",
-            genre,
-            tableau.FilterUpdateType.REPLACE);
-    }
-
-    //yes this is a hack and a half but good enough for now. There is a better way.
-    var stopInterval = setInterval(()=>{
-      console.log('>>>>')
-      if(document.getElementById('tableauViz')){
-        initViz()
-        clearInterval(stopInterval)
+  function initViz() {
+      console.log('initViz Running!')
+    var placeholderDiv = document.getElementById("tableauViz");
+    var url = "https://public.tableau.com/views/BoldAppsandLocations/Dashboard1?:embed=y&:display_count=yes";
+    var windowWidth = document.getElementById('vizContainer').clientWidth
+    var windowHeight = document.getElementById('vizContainer').clientHeight
+    var options = {
+      width: windowWidth,
+      height: 700,
+      hideTabs: true,
+      hideToolbar: true,
+      onFirstInteractive: function () {
+        workbook = viz.getWorkbook();
+        activeSheet = workbook.getActiveSheet();
+        listenToMarksSelection();
       }
-    },2000);
+    };
+    viz = new tableau.Viz(placeholderDiv, url, options);
+  }
+
+
+  function filterAppGenres(genre){
+      console.log("filterAppGenres("+genre+") running")
+      console.log(activeSheet)
+      console.log(workbook)
+      PhoneAppsSheet = getPhoneAppSheet()
+      LocationSheet = getLocationSheet()
+
+      PhoneAppsSheet.applyFilterAsync(
+          "Primary Genre",
+          genre,
+          tableau.FilterUpdateType.REPLACE).then(function(){
+              get_list_of_apps().then(function(app_id_list){
+
+                  console.log('app_id_list: ', app_id_list)
+                  LocationSheet.applyFilterAsync(
+                      "app_id",
+                      app_id_list,
+                      tableau.FilterUpdateType.REPLACE
+                  )
+
+
+
+              })
+      })
+
+
+  }
+
+  function get_list_of_apps(){
+      return new Promise((resolve, reject) => {
+      options = {
+            maxRows: 0,
+            ignoreAliases: false,
+            ignoreSelection: true,
+            includeAllColumns: false
+          };
+      sheet = getPhoneAppSheet()
+
+      console.log('sheet type: ', sheet.getSheetType())
+      console.log('sheet : ', sheet)
+
+      sheet.getUnderlyingDataAsync(options).then(function (t) {
+        var data = t.getData();
+        // console.log('data: ', data)
+        var app_id_list = []
+        for(var i = 0; i < data.length; i++){
+            app_id_list.push(data[i][0]['value'])
+            console.log('>>>>>>', data[i][0]['value'])
+        }
+        // console.log('app_id_list: ', app_id_list)
+        console.log('returning data: ', app_id_list)
+        resolve(app_id_list)
+
+      });
+  })}
+
+  function getPhoneAppSheet(){
+      console.log('getPhoneAppSheet() called!')
+      return viz.getWorkbook().getActiveSheet().getWorksheets().get("Phone Applications")
+  }
+  function getLocationSheet(){
+      console.log('getLocationSheet() called!')
+      return viz.getWorkbook().getActiveSheet().getWorksheets().get("Locations/Businesses")
+  }
+
+  function showAllValues() {
+      console.log('showAllValues() called!')
+      getPhoneAppSheet().applyFilterAsync(
+          "Primary Genre",
+          "",
+          tableau.FilterUpdateType.ALL
+      )
+      getLocationSheet().applyFilterAsync(
+          "app_id",
+          "",
+          tableau.FilterUpdateType.ALL
+      )
+  }
+
+
+  function changeDashboardSize() {
+    workbook.activateSheetAsync("Dashboard 1")
+      .then(function (dashboard) {
+        dashboard.changeSizeAsync({
+          behavior: tableau.SheetSizeBehavior.AUTOMATIC
+        });
+      });
+  }
+
 
 
       </script> <!-- This is my Tableau Js File -->
