@@ -21,6 +21,8 @@
   function resizeViz() {
       var width = document.getElementById('vizContainer').clientWidth;
       var height = document.getElementById('vizContainer').clientHeight;
+
+      console.log('h:',height,'\nw:',width)
       viz.setFrameSize(width, height);
       document.getElementById('btn-column').setAttribute('style','height:'+height+'px;')
   }
@@ -38,7 +40,7 @@
     var windowHeight = document.getElementById('vizContainer').clientHeight
     var options = {
       width: windowWidth,
-      height: 700,
+      height: 650,
       hideTabs: true,
       hideToolbar: true,
       onFirstInteractive: function () {
