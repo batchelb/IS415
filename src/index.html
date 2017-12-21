@@ -25,8 +25,13 @@
       document.getElementById('btn-column').setAttribute('style','height:'+height+'px;')
   }
 
+  function loadTabData(){
+      initViz()
+  }
+
 
   function initViz() {
+    document.getElementById('load-btn').classList.add('invisible')
     var placeholderDiv = document.getElementById("tableauViz");
     var url = "https://public.tableau.com/views/BoldAppsandLocations/Dashboard1?:embed=y&:display_count=yes";
     var windowWidth = document.getElementById('vizContainer').clientWidth
@@ -41,7 +46,7 @@
         activeSheet = workbook.getActiveSheet();
         resizeViz();
         document.getElementById('btn-column').classList.remove('invisible')
-        listenToMarksSelection();
+        // listenToMarksSelection();
       }
     };
     viz = new tableau.Viz(placeholderDiv, url, options);
