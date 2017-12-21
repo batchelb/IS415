@@ -11,9 +11,10 @@ import { RecommenderService } from './recommender.service';
 export class RecommenderComponent implements OnInit {
   recommendersNav = [
     {display:'Similar users based on users', url:'similar'},
-    {display:'Users based on apps', url:'user'},
+    {display:'Similar apps based on apps', url:'user'},
     {display:'Apps based on users', url:'app'}
   ]
+  Number = Number
   type;
   searchText;
   selectedItem;
@@ -28,15 +29,15 @@ export class RecommenderComponent implements OnInit {
     },
     app:{
       title:'Apps',
-      description:'This recommender identifies users that would like a specified app',
-      select: new Lists().apps,
+      description:'This recommender identifies apps that a specified user would like',
+      select: new Lists().users,
       placeholder:'Select an User',
       recommended:'Users'
     },
     user:{
-      title:'Users',
-      description:'This recommender identifies apps that a specified user would like',
-      select: new Lists().users,
+      title:'Similar Apps',
+      description:'This recommender identifies similar apps a user would like based on app',
+      select: new Lists().apps,
       placeholder:'Select an App',
       recommended:'Apps'
     }
@@ -50,6 +51,7 @@ export class RecommenderComponent implements OnInit {
     this.route.params.subscribe((params)=>{
       this.searchText = '';
       this.type = params['type']
+      this.recommendations = [];
     });
   }
 
@@ -57,7 +59,7 @@ export class RecommenderComponent implements OnInit {
     return list.filter( item => this.getItemDisplay(item).includes(this.searchText));
   }
   getItemDisplay(item){
-    return this.type === 'app'? item.trackName: item .fname + ' ' +item.lname
+    return this.type === 'user'? item.trackName: item .fname + ' ' +item.lname
   }
   recommend() {
     const item = this.recommenders[this.type].select.find(item => this.getItemDisplay(item) === this.searchText);
@@ -66,7 +68,7 @@ export class RecommenderComponent implements OnInit {
       this.loading = true;
       this.recommenderService[this.type](item.user_id || item.app_id).subscribe(data => {
         this.loading = false;
-        this.recommendations = data.json().Results.output1.value.Values[0];
+        this.recommendations = data.json().Results.output1.value.Values[0].filter(recommendation => recommendation !=='NULL');
       });
     }
   }

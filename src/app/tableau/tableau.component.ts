@@ -10,6 +10,7 @@ export class TableauComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
   }
 
 }
