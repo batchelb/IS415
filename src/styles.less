@@ -11,8 +11,9 @@ body {
 .title {
     font-size: 24px;
 }
-app-recommender, app-tableau{
+.router{
     flex: 1 1 95%;
+    overflow: hidden;
 }
 nav{
     background: #4682B4 !important;
@@ -26,4 +27,13 @@ button{
 }
 .open>a{
     color:@black !important;
+}
+app-tableau {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.navbar-brand {
+    font-size: 16px !important;
 }

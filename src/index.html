@@ -21,8 +21,6 @@
   function resizeViz() {
       var width = document.getElementById('vizContainer').clientWidth;
       var height = document.getElementById('vizContainer').clientHeight;
-
-      console.log('h:',height,'\nw:',width)
       viz.setFrameSize(width, height);
       document.getElementById('btn-column').setAttribute('style','height:'+height+'px;')
   }
@@ -93,7 +91,6 @@
       sheet = getPhoneAppSheet()
       sheet.getUnderlyingDataAsync(options).then(function (t) {
         var data = t.getData();
-        // console.log('data: ', data)
         var app_id_list = []
         for(var i = 0; i < data.length; i++){
             app_id_list.push(data[i][0]['value'])

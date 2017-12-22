@@ -1,119 +1,113 @@
-<body onload="initViz();">
-<div class='container-fluid' id="tableau" >
-  <div class='row'>
+<div class='tableu-container' id="tableau">
+    <div class='invisible' id='btn-column'>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th colspan='2'><h5>App Genres</h5></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class='activebutton' colspan='2' onclick='showAllValues("showall")'id='showall'>
+                        <span class='btn-txt'>Show All</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Book","Book");'id='Book'>
+                        <span class='btn-txt'>Book</span>
+                    </td>
+                    <td onclick='filterAppGenres("Business","Business");'id='Business'>
+                        <span class='btn-txt'>Business</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Catalogs","Catalogs");'id='Catalogs'>
+                        <span class='btn-txt'>Catalogs</span>
+                    </td>
+                    <td onclick='filterAppGenres("Education","Education");'id='Education'>
+                        <span class='btn-txt'>Education</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Entertainment","Entertainment");'id='Entertainment'>
+                        <span class='btn-txt'>Entertainment</span>
+                    </td>
+                    <td onclick='filterAppGenres("Finance","Finance");'id='Finance'>
+                        <span class='btn-txt'>Finance</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Food","Food & Drink");'id='Food'>
+                        <span class='btn-txt'>Food & Drink</span>
+                    </td>
+                    <td onclick='filterAppGenres("Games","Games");'id='Games'>
+                        <span class='btn-txt'>Games</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Health","Health & Fitness");'id='Health'>
+                        <span class='btn-txt'>Health & Fitness</span>
+                    </td>
+                    <td onclick='filterAppGenres("Lifestyle","Lifestyle");'id='Lifestyle'>
+                        <span class='btn-txt'>Lifestyle</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Medical","Medical");'id='Medical'>
+                        <span class='btn-txt'>Medical</span>
+                    </td>
+                    <td onclick='filterAppGenres("Music","Music");'id='Music'>
+                        <span class='btn-txt'>Music</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Navigation","Navigation");'id='Navigation'>
+                        <span class='btn-txt'>Navigation</span>
+                    </td>
+                    <td onclick='filterAppGenres("News","News");'id='News'>
+                        <span class='btn-txt'>News</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Photo","Photo & Video");'id='Photo'>
+                        <span class='btn-txt'>Photo & Video</span>
+                    </td>
+                    <td onclick='filterAppGenres("Productivity","Productivity");'id='Productivity'>
+                        <span class='btn-txt'>Productivity</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Reference","Reference");'id='Reference'>
+                        <span class='btn-txt'>Reference</span>
+                    </td>
+                    <td onclick='filterAppGenres("Social","Social Networking");'id='Social'>
+                        <span class='btn-txt'>Social Networking</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Sports","Sports");'id='Sports'>
+                        <span class='btn-txt'>Sports</span>
+                    </td>
+                    <td onclick='filterAppGenres("Travel","Travel");'id='Travel'>
+                        <span class='btn-txt'>Travel</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td onclick='filterAppGenres("Utilities","Utilities");'id='Utilities'>
+                        <span class='btn-txt'>Utilities</span>
+                    </td>
+                    <td onclick='filterAppGenres("Weather","Weather");'id='Weather'>
+                        <span class='btn-txt'>Weather</span>
+                    </td>
+                </tr>
 
 
-      <div class='col-sm-3 invisible' id='btn-column'>
-          <table class="table">
-              <thead>
-                  <tr>
-                      <th colspan='2'><h5>App Genres</h5></th>
-                  </tr>
-              </thead>
-              <tbody>
-                  <tr>
-                      <td class='activebutton' colspan='2' onclick='showAllValues("showall")'id='showall'>
-                          <span class='btn-txt'>Show All</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Book","Book");'id='Book'>
-                          <span class='btn-txt'>Book</span>
-                      </td>
-                      <td onclick='filterAppGenres("Business","Business");'id='Business'>
-                          <span class='btn-txt'>Business</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Catalogs","Catalogs");'id='Catalogs'>
-                          <span class='btn-txt'>Catalogs</span>
-                      </td>
-                      <td onclick='filterAppGenres("Education","Education");'id='Education'>
-                          <span class='btn-txt'>Education</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Entertainment","Entertainment");'id='Entertainment'>
-                          <span class='btn-txt'>Entertainment</span>
-                      </td>
-                      <td onclick='filterAppGenres("Finance","Finance");'id='Finance'>
-                          <span class='btn-txt'>Finance</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Food","Food & Drink");'id='Food'>
-                          <span class='btn-txt'>Food & Drink</span>
-                      </td>
-                      <td onclick='filterAppGenres("Games","Games");'id='Games'>
-                          <span class='btn-txt'>Games</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Health","Health & Fitness");'id='Health'>
-                          <span class='btn-txt'>Health & Fitness</span>
-                      </td>
-                      <td onclick='filterAppGenres("Lifestyle","Lifestyle");'id='Lifestyle'>
-                          <span class='btn-txt'>Lifestyle</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Medical","Medical");'id='Medical'>
-                          <span class='btn-txt'>Medical</span>
-                      </td>
-                      <td onclick='filterAppGenres("Music","Music");'id='Music'>
-                          <span class='btn-txt'>Music</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Navigation","Navigation");'id='Navigation'>
-                          <span class='btn-txt'>Navigation</span>
-                      </td>
-                      <td onclick='filterAppGenres("News","News");'id='News'>
-                          <span class='btn-txt'>News</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Photo","Photo & Video");'id='Photo'>
-                          <span class='btn-txt'>Photo & Video</span>
-                      </td>
-                      <td onclick='filterAppGenres("Productivity","Productivity");'id='Productivity'>
-                          <span class='btn-txt'>Productivity</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Reference","Reference");'id='Reference'>
-                          <span class='btn-txt'>Reference</span>
-                      </td>
-                      <td onclick='filterAppGenres("Social","Social Networking");'id='Social'>
-                          <span class='btn-txt'>Social Networking</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Sports","Sports");'id='Sports'>
-                          <span class='btn-txt'>Sports</span>
-                      </td>
-                      <td onclick='filterAppGenres("Travel","Travel");'id='Travel'>
-                          <span class='btn-txt'>Travel</span>
-                      </td>
-                  </tr>
-                  <tr>
-                      <td onclick='filterAppGenres("Utilities","Utilities");'id='Utilities'>
-                          <span class='btn-txt'>Utilities</span>
-                      </td>
-                      <td onclick='filterAppGenres("Weather","Weather");'id='Weather'>
-                          <span class='btn-txt'>Weather</span>
-                      </td>
-                  </tr>
+            </tbody>
+        </table>
+    </div>
 
-
-              </tbody>
-          </table>
-      </div>
-
-      <div class='col-sm-9' id='vizContainer'>
-          <div id='tableauViz'></div>
-          <div class='btn btn-primary btn-lg' id='load-btn' onclick='loadTabData()'>Load Tableau Data</div>
-      </div>
-  </div>
+    <div id='vizContainer'>
+        <div id='tableauViz'></div>
+        <div class='btn btn-primary btn-lg' id='load-btn' onclick='loadTabData()' #button>Load Tableau Data</div>
+    </div>
 </div>
-<body>

@@ -22,8 +22,6 @@ h7 {
     display:inline-block;
 }
 
-
-
 td, tr{
     border-bottom: 0px
 }
@@ -68,7 +66,6 @@ td:hover{
 
 #btn-column{
     padding:0px;
-    padding-left: 15px;
 }
 
 #tableau>div{
@@ -76,8 +73,25 @@ td:hover{
 }
 
 #tableau{
-    padding:0px;
+    display: flex;
+    flex: 1 1 100%;
+    >:first-child{
+      flex:1 1 12%;
+      margin: 0px;
+      height: 100% !important;
+    }
+    .table{
+        margin: 0px;
+    }
+    #tableauViz{
+        height: 100% !important;
+        overflow: hidden;
+    }
+    :nth-child(2){
+        flex: 1 1 88%;
+    }
 }
+
 
 .invisible{
     visibility: hidden
@@ -85,6 +99,7 @@ td:hover{
 
 #load-btn{
     position:absolute;
-    top:100px;
-    left: 25%;
+    top:40%;
+    left: 43%;
+    visibility: hidden;
 }
